@@ -1,21 +1,19 @@
-% kast, a nice box
-
+% kast, a nice labelled box
 \usepackage[framemethod=tikz]{mdframed}
-\global\mdfdefinestyle{rounded}{roundcorner=5pt,linewidth=1pt,linecolor=lightgray}
-\newenvironment{kast}[1]
-  {%
-    \mdfsetup{
+\global\mdfdefinestyle{rounded}{%
+  roundcorner=5pt,linewidth=1pt,linecolor=lightgray}
+\newenvironment{kast}[1]{%
+    \mdfsetup{%
       skipabove=0pt,skipbelow=0pt,
       frametitle={\colorbox{white}{#1}},
       frametitlefont=\textbf,
-      innertopmargin=-10pt,
-      innerbottommargin=5pt,
+      innertopmargin=-\medskipamount,
+      innerbottommargin=\medskipamount,
       frametitleaboveskip=-\ht\strutbox,
       frametitlealignment={\hspace*{0.00\linewidth}}
     }%
-    \begin{mdframed}[style=rounded,nobreak=true]\medskip
-  }
-  {%
-    \end{mdframed}
-  }
+    \smallskip%
+    \begin{mdframed}[style=rounded,nobreak=true]
+    \smallskip}
+  {\end{mdframed}}
 
