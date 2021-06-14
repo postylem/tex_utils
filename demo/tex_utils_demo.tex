@@ -1,0 +1,62 @@
+%!TEX program = latexmk -xelatex
+\documentclass{article}
+\usepackage[%
+natbib=true,backend=biber,sorting=nymdt,%
+citestyle=authoryear,bibstyle=authoryear,%
+url=false,doi=false,isbn=false,%
+backref%
+]{biblatex}
+
+\usepackage{parskip}
+
+\begin{filecontents}[overwrite]{\jobname-refs.bib}
+@article{Nymous2032,
+  title={Something},
+  author={Ann O. Nymous},
+  journal={Fake Journal},
+  volume={1},
+  pages={1--9},
+  year={2032},
+  url={http://www.zombo.com}
+}
+\end{filecontents}
+\addbibresource{\jobname-refs.bib}
+
+% jbib_links: makes nice links, and defines nymdt sorting.
+%   Imports mathtools, xcolor, hyperref, cleveref.
+\input{/Users/j/Library/texmf/custom/jbib_links.tex}
+
+% jformat: defines \myuline for nicer underline.
+%   Imports packages contour, ulem
+\input{/Users/j/Library/texmf/custom/jformat.tex}
+
+% kast: a nice box environment:
+\input{/Users/j/Library/texmf/custom/kast.tex}
+
+% IT operators: for expectation \E{}, entropy \H{}, MI \I{} etc.
+\input{/Users/j/Library/texmf/custom/information-theory-operators.tex}
+
+\begin{document}
+
+\title{Some \LaTeX\ utils}
+\author{jlh}
+\maketitle
+
+This document demos some things I've collected for nicer texing.
+For instance, I like citations with auto links, like this:
+\citet[][]{Nymous2032}. Also, underlines like this \myuline{example}.
+
+\begin{kast}{Simple titled box}
+  Use the \texttt{kast} environment.
+\end{kast}
+
+Information theory operators, for things like this:
+\begin{align}
+  \I{X;Y} &= \KL{P_{(X,Y)}}{P_X \otimes P_Y}
+          = \E_{p_{(X,Y)}}{\log \frac{p_{(X,Y)}(x,y)}{p_X(x)p_Y(y)}}\\
+          &= \I{X;Y} = \H{X} - \H{X\mid Y}
+\end{align}
+
+\printbibliography{}
+
+\end{document}

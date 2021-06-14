@@ -12,61 +12,6 @@ mkdir ~/Library/texmf
 git clone https://github.com/postylem/tex_utils.git ~/Library/texmf/custom
 ```
 
-and then used in a .tex file like:
-
-```latex
-%!TEX program = latexmk -xelatex
-\documentclass{article}
-\usepackage{mathtools}
-\usepackage[%
-natbib=true,backend=biber,sorting=nymdt,%
-citestyle=authoryear,bibstyle=authoryear,%
-url=false,doi=false,isbn=false%
-]{biblatex}
-
-\begin{filecontents}{\jobname.bib}
-@article{Nymous2032,
-  title={Something},
-  author={Ann O Nymous},
-  journal={Fake Journal},
-  volume={1},
-  pages={1--9},
-  year={2032},
-  url={http://www.zombo.com}
-}
-\end{filecontents}
-\addbibresource{\jobname.bib}
-
-% jbib_links: imports xcolor, imports/configs hyperref, defines nymdt sorting:
-\input{/Users/j/Library/texmf/custom/jbib_links.tex}
-\usepackage{cleveref} % must come after importing hyperref
-
-% general formatting things. Imports packages contour, ulem
-\input{/Users/j/Library/texmf/custom/jformat.tex}
-
-% for a nice box environment 'kast':
-\input{/Users/j/Library/texmf/custom/kast.tex}
-
-% for expectation \E{}, entropy \H{}, MI \I{} etc:
-\input{/Users/j/Library/texmf/custom/information-theory-operators.tex}
-
-\begin{document}
-
-\title{Test document}
-\author{me}
-
-\maketitle
-
-\begin{kast}{A box}
-  Hello world.
-  Here's an \myuline{example} citation: \citet[e.g.][]{Nymous2032}.
-
-  And an equation
-  \[\I{X:Y} = \H{X} - \H{X\mid Y}\]
-\end{kast}
-
-\printbibliography{}
-
-\end{document}
-
-```
+and then used in a LaTeX file.
+See example [`tex_utils_demo.tex`](demo/tex_utils_demo.tex)
+(I compile with `latexmk -xelatex`).
