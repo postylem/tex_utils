@@ -1,0 +1,36 @@
+% Use with package `forest`
+\forestset{
+  nice trees/.style={
+    for tree={
+      parent anchor=south,
+      child anchor=north,
+      align=center,
+      base=top,
+      inner sep=0pt,%, s sep=12pt,
+      l=0ex,
+      before typesetting nodes={% 
+        %based on nice empty nodes - page 52 of the manual, 
+        %used in Jason Zentz's answer: http://tex.stackexchange.com/a/216103/
+        if content={}{
+          for parent={
+            for children={anchor=north},
+            calign=fixed edge angles,
+            calign angle=60,
+          },
+          shape=coordinate,
+          calign=fixed edge angles,
+          calign angle=60,
+        }{},
+        %% from http://tex.stackexchange.com/a/205311, 
+        %% in order to reduce the width of triangles/roofs
+        % if n children=0{delay=with translation}{}  
+      },
+    },
+  },
+}
+\newcommand\tree[2][]{\begin{forest}
+    nice trees,
+    #1% optional argument here like 'for tree={s sep=20pt}'
+    #2
+\end{forest}}
+

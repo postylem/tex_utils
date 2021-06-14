@@ -1,0 +1,121 @@
+\usepackage{amssymb,mathtools}
+\usepackage{mleftright}
+
+% Middle bar resize for \set{}: https://tex.stackexchange.com/a/460/19048
+\makeatletter
+\newcommand{\my@set}[1]{\left\lbrace #1\right\rbrace}
+\newcommand{\my@cset}[2]{%
+ \left\lbrace #1\vphantom{#2}\right\vert%
+ \left.\vphantom{#1}#2\right\rbrace}
+\def\my@first#1|#2\relax{#1}
+\def\my@second#1|#2\relax{#2}
+\newcommand{\set}[1]{%
+\edef\my@given{#1}
+\edef\my@start{\my@first#1|\relax}%
+\ifx\my@start\my@given%
+\my@set{#1}
+\else
+\edef\my@last{\my@second#1\relax}%
+\my@cset{\my@start}{\my@last}%
+\fi}
+
+% KL operator: (use \KL{p}{q} or \KL*{p}{q} for resizing version)
+\DeclarePairedDelimiterX{\infdivx}[2]{(}{)}{#1\,\delimsize\|\,#2}
+\newcommand{\KL}{D_{\mathrm{KL}}\infdivx}
+
+% Simple information theory operators (such as \I{X:Y} for mutual information):
+\DeclarePairedDelimiterX{\parens}[1]{(}{)}{#1}
+\newcommand{\I}{\operatorname{I}\parens}
+
+% %%%% An alternate way to do \I{X:Y}
+% \newcommand{\op}[2]{\operatorname{#1}({#2})} % to make various operators
+% \newcommand\I[1]{\op{I}{#1}}
+% \newcommand{\II}[1]{\op{II}{#1}}
+% \newcommand\T[1]{\op{T}{#1}}
+% \newcommand\B[1]{\op{B}{#1}}
+% % My Expectation and entropy operators
+% \DeclareMathOperator*{\EV}{\mathbb{E}}
+% \newcommand\E[2]{\EV_{#1}\left[{#2}\right]} % Expectation
+% \renewcommand\H[1]{\op{H}{#1}} % Entropy
+% %%%%
+
+% For better spacing in something like \H{X:Y|Z}
+\DeclareMathSymbol{:}{\mathop}{operators}{"3A} % colon behave as operator instead of relation
+\DeclareMathSymbol{|}{\mathbin}{symbols}{"6A} % pipe behave as bin relation instead of ord
+
+
+% Expectation operator implementation from https://tex.stackexchange.com/a/266485/19048
+% BEGIN
+\makeatletter
+\newcommand*{\E}{%
+  \def\E@sub{}%
+  \def\E@sup{}%
+  \E@scripts%
+}
+\newcommand*{\E@scripts}{%
+  \@ifnextchar_\E@subscript{%
+    \@ifnextchar^\E@supscript\E@finish%
+  }%
+}
+\def\E@subscript_#1{%
+  \ifx\E@sub\@empty%
+    \def\E@sub{#1}%
+  \else
+    \errmessage{E already has a subscript}%
+  \fi
+  \E@scripts%
+}
+\def\E@supscript^#1{%
+  \ifx\E@sup\@empty%
+    \def\E@sup{#1}%
+  \else
+    \errmessage{E already has a superscript}%
+  \fi
+  \E@scripts%
+}
+\newcommand*{\E@finish}[1]{%
+  \mathbb{E}%
+  \ifx\E@sub\@empty\else _{\E@sub}\fi
+  \ifx\E@sup\@empty\else ^{\E@sup}\fi
+  \mleft[#1\mright]%
+}
+\makeatother
+% END
+
+% Entropy operator that can take optional subscript for conditional entropy
+% BEGIN
+\makeatletter
+\renewcommand*{\H}{%
+  \def\H@sub{}%
+  % \def\H@sup{}%
+  \H@scripts%
+}
+\newcommand*{\H@scripts}{%
+  \@ifnextchar_\H@subscript{%
+    \@ifnextchar^\H@supscript\H@finish%
+  }%
+}
+\def\H@subscript_#1{%
+  \ifx\H@sub\@empty%
+    \def\H@sub{#1}%
+  \else
+    \errmessage{H already has a subscript}%
+  \fi
+  \H@scripts%
+}
+% \def\H@supscript^#1{%
+%   \ifx\H@sup\@empty
+%     \def\H@sup{#1}%
+%   \else
+%     \errmessage{E already has a superscript}%
+%   \fi
+%   \H@scripts
+% }
+\newcommand*{\H@finish}[1]{%
+  \mathrm{H}%
+  \ifx\H@sub\@empty\else _{\H@sub}\fi
+  % \ifx\H@sup\@empty\else ^{\H@sup}\fi
+  \mleft(#1\mright)%
+}
+\makeatother
+% END

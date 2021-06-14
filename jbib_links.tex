@@ -1,0 +1,115 @@
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{%
+  linkcolor=BrickRed,%
+	citecolor=PineGreen,%
+	filecolor=Mulberry,%
+	urlcolor=NavyBlue,%
+	menucolor=BrickRed,%
+	runcolor=Mulberry,%
+	linkbordercolor=BrickRed,%
+	citebordercolor=PineGreen,%
+	filebordercolor=Mulberry,%
+	urlbordercolor=NavyBlue,%
+	menubordercolor=BrickRed,%
+	runbordercolor=Mulberry%
+}
+
+%% make title hyperlink to DOIs, URL or ISBN
+%% For use with biblatex
+%% FROM https://tex.stackexchange.com/a/48506/19048
+%% START %%
+
+% Define new format that applies a hypertext reference
+\DeclareFieldFormat{linked}{%
+  \ifboolexpr{ test {\ifhyperref} and not test {\ifentrytype{online}} }
+    {\iffieldundef{doi}
+       {\iffieldundef{url}
+          {\iffieldundef{isbn}
+             {\iffieldundef{issn}
+                {#1}
+                {\href{\worldcatsearch\thefield{issn}}{#1}}}
+             {\href{\worldcatsearch\thefield{isbn}}{#1}}}
+          {\href{\thefieldfirstword{url}}{#1}}}
+       {\href{http://dx.doi.org/\thefield{doi}}{#1}}}
+    {#1}}
+
+% URL prefix for WorldCat query
+\def\worldcatsearch{http://www.worldcat.org/search?qt=worldcat_org_all&q=}
+
+% Define new command that returns the first word of a given field
+\makeatletter
+\def\thefieldfirstword#1{%
+  \expandafter\expandafter%
+  \expandafter\firstword%
+  \expandafter\expandafter%
+  \expandafter{\csname abx@field@#1\endcsname}}
+\def\firstword#1{\firstword@i#1 \@nil}
+\def\firstword@i#1 #2\@nil{#1}
+\makeatother
+
+% Redefine url format to print only first URL, omit URL prefix
+\DeclareFieldFormat{url}{\url{\firstword{#1}}}
+
+\renewbibmacro*{title}{% Based on generic definition from biblatex.def
+  \ifboolexpr{ test {\iffieldundef{title}} and test {\iffieldundef{subtitle}} }
+    {}
+    {\printtext[title]{\printtext[linked]{%
+       \printfield[titlecase]{title}%
+       \setunit{\subtitlepunct}%
+       \printfield[titlecase]{subtitle}}}%
+     \newunit}%
+  \printfield{titleaddon}}
+
+\renewbibmacro*{periodical}{% Based on generic definition from biblatex.def
+  \iffieldundef{title}
+    {}
+    {\printtext[title]{\printtext[linked]{%
+       \printfield[titlecase]{title}%
+       \setunit{\subtitlepunct}%
+       \printfield[titlecase]{subtitle}}}}}
+
+\AtEveryCite{\DeclareFieldAlias{linked}{default}}
+%% END %%%
+
+%% START %%
+% Make a new sorting template to sort by
+% name > year > month > day > title
+% baesed on nyt from biblatex.def
+% from https://tex.stackexchange.com/a/46879/19048
+\DeclareSortingTemplate{nymdt}{
+  \sort{
+    \field{presort}
+  }
+  \sort[final]{
+    \field{sortkey}
+  }
+  \sort{
+    \field{sortname}
+    \field{author}
+    \field{editor}
+    \field{translator}
+    \field{sorttitle}
+    \field{title}
+  }
+  \sort{
+    \field{sortyear}
+    \field{year}
+  }
+  \sort{
+    \field[padside=left,padwidth=2,padchar=0]{month}
+    \literal{00}
+  }
+  \sort{
+    \field[padside=left,padwidth=2,padchar=0]{day}
+    \literal{00}
+  }
+  \sort{
+    \field{sorttitle}
+  }
+  \sort{
+    \field[padside=left,padwidth=4,padchar=0]{volume}
+    \literal{0000}
+  }
+}
+%% END %%

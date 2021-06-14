@@ -1,0 +1,18 @@
+% things for linguistics examples using gb4e
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{environ}
+\usepackage{gb4e}\noautomath% removes incompatibilities
+
+% For multiple gb4e examples side by side
+\newcolumntype{T}{>{\refstepcounter{tabenum}}X}
+\newcounter{tabenum}[xnumi]
+\renewcommand{\thetabenum}{\thexnumi\alph{tabenum}}
+\newcommand*{\tabex}{\relax\alph{tabenum}.~}
+\NewEnviron{multiexe}{%
+  %\setlength{\extrarowheight}{1ex} % this will mess up nice forest trees 
+  \begin{tabularx}{\linewidth}[t]{@{}TTT@{}}
+    \BODY%
+  \end{tabularx}
+}
+
