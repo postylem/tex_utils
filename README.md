@@ -16,7 +16,7 @@ and then used in a .tex file like:
 
 ```latex
 \documentclass{article}
-
+\usepackage{mathtools}
 \usepackage[%
 natbib=true,backend=biber,sorting=nymdt,%
 citestyle=authoryear,bibstyle=authoryear,%
@@ -56,14 +56,16 @@ url=false,doi=false,isbn=false%
 
 \maketitle
 
-Hello world. Here's an \myuline{underlined thing}, and a citation \citep[see][]{Nymous2032}.
-
 \begin{kast}{A box}
-Here is an equation
-\[
-\I{X:Y} = \H{X} - \H{X\mid Y}
-\]
+  Hello world.
+  Here's an \myuline{example} citation: \citet[e.g.][]{Nymous2032}.
+
+  And an equation
+  \[\I{X:Y} = \H{X} - \H{X\mid Y}\]
 \end{kast}
 
 \printbibliography{}
+
+\end{document}
+
 ```
