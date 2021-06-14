@@ -10,15 +10,13 @@ backref%
 \usepackage{parskip}
 
 \begin{filecontents}[overwrite]{\jobname-refs.bib}
-@article{Nymous2032,
-  title={Something},
-  author={Ann O. Nymous},
-  journal={Fake Journal},
-  volume={1},
-  pages={1--9},
-  year={2032},
-  url={http://www.zombo.com}
-}
+  @book{mackay.d:2003,
+    author = {MacKay, David J. C.},
+    publisher = {Cambridge university press},
+    title = {Information theory, inference and learning algorithms},
+    url = {https://www.inference.org.uk/itila/},
+    year = {2003}
+  }
 \end{filecontents}
 \addbibresource{\jobname-refs.bib}
 
@@ -40,20 +38,24 @@ backref%
 
 \title{Some \LaTeX\ utils}
 \author{jlh}
+
 \maketitle
 
 This document demos some things I've collected for nicer texing.
-For instance, I like citations with auto links, like this:
-\citet[][]{Nymous2032}. Also, underlines like this \myuline{example}.
+For instance, underlines like this \myuline{example}.
+
+Also, citations with auto links, like this: check out
+the link in the refences when I cite, e.g.~\citet[][]{mackay.d:2003}.
+Links are auto-generated from the \texttt{url}, \texttt{doi}, etc.\ fields.
 
 \begin{kast}{Simple titled box}
-  Use the \texttt{kast} environment.
+  For a box like this, use the \texttt{kast} environment.
 \end{kast}
 
 Information theory operators, for things like this:
 \begin{align}
   \I{X;Y} &= \KL{P_{(X,Y)}}{P_X \otimes P_Y}
-          = \E_{p_{(X,Y)}}{\log \frac{p_{(X,Y)}(x,y)}{p_X(x)p_Y(y)}}\\
+  = \E_{p_{(X,Y)}}{\log \frac{p_{(X,Y)}(x,y)}{p_X(x)p_Y(y)}}\\
           &= \H{X} - \H{X\mid Y}
 \end{align}
 
