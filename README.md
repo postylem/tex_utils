@@ -15,6 +15,7 @@ git clone https://github.com/postylem/tex_utils.git ~/Library/texmf/custom
 and then used in a .tex file like:
 
 ```latex
+%!TEX program = latexmk -xelatex
 \documentclass{article}
 \usepackage{mathtools}
 \usepackage[%
