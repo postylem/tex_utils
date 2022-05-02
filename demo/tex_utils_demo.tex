@@ -55,8 +55,11 @@ Links are auto-generated from the \texttt{url}, \texttt{doi}, etc.\ fields.
 Information theory operators, for things like this:
 \begin{align}
   \I{X;Y} &= \KL{P_{(X,Y)}}{P_X \otimes P_Y}
-  = \E_{p_{(X,Y)}}{\log \frac{p_{(X,Y)}(x,y)}{p_X(x)p_Y(y)}}\\
-          &= \H{X} - \H{X\mid Y}
+          &&= \E_{p_{(X,Y)}}{\log \frac{p_{(X,Y)}(x,y)}{p_X(x)p_Y(y)}}\\
+          &= \H{X} - \H{X\mid Y}\\
+          & &&= \int_{\mathcal{X}\times\mathcal{Y}}
+          \log \mleft(\frac{\mathrm{d}P_X \otimes
+          P_Y}{\mathrm{d}P_{(X,Y)}}\mright) \,\mathrm{d}P_X \otimes P_Y
 \end{align}
 
 \printbibliography{}
