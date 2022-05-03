@@ -1,14 +1,24 @@
-%!TEX program = latexmk -xelatex
+%!TEX program = xelatex
 \documentclass{article}
-\usepackage[%
+
+\usepackage{parskip}
+
+% Pass these options to biblatex when/if it's loaded.
+\PassOptionsToPackage{%
 natbib=true,backend=biber,sorting=nymdt,%
 citestyle=authoryear,bibstyle=authoryear,%
 url=false,doi=false,isbn=false,%
 backref%
-]{biblatex}
+}{biblatex}
 
-\usepackage{parskip}
 
+% jbib_links: makes nice links, and defines nymdt sorting.
+% Imports biblatex, mathtools, xcolor, hyperref, cleveref.
+\input{/Users/j/Library/texmf/custom/jbib_links.tex}
+
+% I'll add in an inline citation. Would normally be an external file.
+% note that the url field is used to link the title, but doesn't show up
+% in the citation as text.  Same for a doi.
 \begin{filecontents}[overwrite]{\jobname-refs.bib}
   @book{mackay.d:2003,
     author = {MacKay, David J. C.},
@@ -17,12 +27,17 @@ backref%
     url = {https://www.inference.org.uk/itila/},
     year = {2003}
   }
+@inproceedings{harremoes.p:2007,
+  author = {Harremo{\"e}s, Peter and Tishby Naftali},
+  booktitle = {2007 IEEE International Symposium on Information Theory},
+  doi = {10.1109/ISIT.2007.4557285},
+  pages = {566--570},
+  title = {The information bottleneck revisited or how to choose a good
+    distortion measure},
+  year = {2007}
+}
 \end{filecontents}
 \addbibresource{\jobname-refs.bib}
-
-% jbib_links: makes nice links, and defines nymdt sorting.
-%   Imports mathtools, xcolor, hyperref, cleveref.
-\input{/Users/j/Library/texmf/custom/jbib_links.tex}
 
 % jformat: defines \myuline for nicer underline.
 %   Imports packages contour, ulem
@@ -45,7 +60,8 @@ This document demos some things I've collected for nicer texing.
 For instance, underlines like this \myuline{example}.
 
 Also, citations with auto links, like this: check out
-the link in the refences when I cite, e.g.~\citet[][]{mackay.d:2003}.
+the link in the refences when I cite, e.g.~\citet[][]{mackay.d:2003,
+harremoes.p:2007}.
 Links are auto-generated from the \texttt{url}, \texttt{doi}, etc.\ fields.
 
 \begin{kast}{Simple titled box}
